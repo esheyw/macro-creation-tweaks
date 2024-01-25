@@ -1,0 +1,39 @@
+{
+  "id": "macro-creation-tweaks",
+  "title": "Macro Creation Tweaks",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "11"
+  },
+  "esmodules": ["scripts/init.mjs"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "authors": [
+    {
+      "name": "Emmanuel Wineberg",
+      "discord": "esheyw",
+      "email": "esheyw@gmail.com",
+      "url": "https://github.com/esheyw",
+      "flags": {}
+    }
+  ],
+  "flags": {
+    "hotReload": {
+      "extensions": ["css", "hbs", "json"],
+      "paths": ["lang", "styles", "templates"]
+    }
+  },
+  "license": "LICENSE",
+  "version": "0.1",
+  "manifest": "updatedByRelease",
+  "url": "updatedByRelease",
+  "download": "updatedByRelease",
+  "readme":"https://github.com/esheyw/macro-creation-tweaks/blob/main/README.md",
+  "bugs":"https://github.com/esheyw/macro-creation-tweaks/issues",
+  "changelog": "https://github.com/esheyw/macro-creation-tweaks/blob/main/CHANGELOG.md"
+}
