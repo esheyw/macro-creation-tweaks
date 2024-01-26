@@ -11,31 +11,26 @@ export function registerSettings() {
   game.settings.register(MODULE, "append-number", {
     config: true,
     default: true,
-    hint: localize("MacroCreationTweaks.Setting.AppendNumber.Hint"),
-    label: localize("MacroCreationTweaks.Setting.AppendNumber.Label"),
+    hint: "MacroCreationTweaks.Setting.AppendNumber.Hint",
+    name: "MacroCreationTweaks.Setting.AppendNumber.Name",
     scope: "world",
     type: Boolean,
-    onChange: updateHooks,
-  });
-  game.settings.register(MODULE, "collision-attempts", {
-    config: true,
-    default: 10,
-    hint: localize("MacroCreationTweaks.Setting.CollisionAttempts.Hint"),
-    label: localize("MacroCreationTweaks.Setting.CollisionAttempts.Label"),
-    scope: "world",
-    type: Number,
-    range: {
-      min: 1,
-      max: 100,
-      step: 1,
-    },
     onChange: updateHooks,
   });
   game.settings.register(MODULE, "delete-empty", {
     config: true,
     default: true,
-    hint: localize("MacroCreationTweaks.Setting.DeleteEmpty.Hint"),
-    label: localize("MacroCreationTweaks.Setting.DeleteEmpty.Label"),
+    hint: "MacroCreationTweaks.Setting.DeleteEmpty.Hint",
+    name: "MacroCreationTweaks.Setting.DeleteEmpty.Name",
+    scope: "world",
+    type: Boolean,
+    onChange: updateHooks,
+  });
+  game.settings.register(MODULE, "change-default-type", {
+    config: true,
+    default: true,
+    hint: "MacroCreationTweaks.Setting.ChangeDefaultType.Hint",
+    name: "MacroCreationTweaks.Setting.ChangeDefaultType.Name",
     scope: "world",
     type: Boolean,
     onChange: updateHooks,

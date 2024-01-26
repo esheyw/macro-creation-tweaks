@@ -2,16 +2,16 @@
   "MacroCreationTweaks": {
     "Setting": {
       "AppendNumber": {
-        "Label": "Append Number",
-        "Hint": "Append a number between 1 and 100 to the name of newly created macros"
-      },
-      "CollisionAttempts": {
-        "Label":"Collision Attempts",
-        "Hint":"Number of times to reroll the number attempting to avoid collision before giving up"
+        "Name": "Append Number",
+        "Hint": "Fixes core bug where a number is not applied to the initial name of new macros created via clicking an empty hotbar slot"
       },
       "DeleteEmpty": {
-        "Label":"Delete Empty Macros",
+        "Name":"Delete Empty Macros",
         "Hint":"If an edit macro window is closed with an empty command field, should the macro document be deleted"
+      },
+      "ChangeDefaultType": {
+        "Name": "Change Default Macro Type",
+        "Hint": "Change the default macro type from 'chat' to 'script'"
       }
     }
   }

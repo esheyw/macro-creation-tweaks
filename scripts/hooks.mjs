@@ -1,46 +1,40 @@
 import { getModule } from "./init.mjs";
 import { setting } from "./settings.mjs";
-import { log } from "./constants.mjs";
 
-function appendNumber(document, data, options, userID) {
+function appendNumber(document, data) {
   if (data.name === "New Macro") {
-    let newname = "";
-    let i = 0;
-    const limit = setting('collision-attempts');
-    do {
-      newname = "New Macro " + Math.floor(Math.random() * 100);
-      i++;
-    } while (game.macros.getName(newname) && i < limit);
-
     document.updateSource({
-      name: newname,
-      type: "script",
+      name: Macro.defaultName(),
     });
   }
 }
-
+function changeDefaultType(document) {
+  document.updateSource({
+    type: "script",
+  });
+}
 function deleteEmpty(app) {
-  log(app)
-  if (app.object.command === "") app.object.delete();
+  const doc = app.object;
+  if (doc.isOwner && doc.command === "") doc.delete();
 }
 
 export function updateHooks() {
-  const modObject = getModule();
-  if (setting("append-number")) {
-    modObject.hookIDs["append-number"] = Hooks.on("preCreateMacro", appendNumber);
-  } else {
-    const appendNumberHookID = modObject.hookIDs["append-number"] ?? null;
-    if (appendNumberHookID) {
-      Hooks.off("preCreateMacro", appendNumberHookID);
-    }
-  }
-
-  if (setting("delete-empty")) {
-    modObject.hookIDs["delete-empty"] = Hooks.on("closeMacroConfig", deleteEmpty);
-  } else {
-    const deleteEmptyHookID = modObject.hookIDs["delete-empty"] ?? null;
-    if (deleteEmptyHookID) {
-      Hooks.off("closeMacroConfig", deleteEmptyHookID);
+  const { hookIDs } = getModule();
+  const hooksMap = new Map([
+    ["change-default-type", { func: changeDefaultType, hook: "preCreateMacro" }],
+    ["append-number", { func: appendNumber, hook: "preCreateMacro" }],
+    ["delete-empty", { func: deleteEmpty, hook: "closeMacroConfig" }],
+  ]);
+  for (const [settingName, data] of hooksMap) {
+    const settingValue = setting(settingName);
+    console.warn(settingName, settingValue);
+    if (settingValue) {
+      hookIDs[settingName] = Hooks.on(data.hook, data.func);
+    } else {
+      const hookID = hookIDs[settingName] ?? null;
+      if (hookID) {
+        Hooks.off(data.hook, hookID);
+      }
     }
   }
 }
