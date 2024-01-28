@@ -5,6 +5,9 @@ jobs:
   different-name:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        
       - name: Get Manifest Variables
         id: manifest_variables
         uses: antifree/json-to-variables@v1.1.2
