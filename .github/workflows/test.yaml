@@ -1,6 +1,6 @@
 name: Test
 on:
-  gollum
+  push
 jobs:
   different-name:
     runs-on: ubuntu-latest
