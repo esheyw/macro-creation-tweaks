@@ -2,7 +2,7 @@ name: Test
 on:
   gollum
 jobs:
-  Explore-GitHub-Actions:
+  different-name:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
