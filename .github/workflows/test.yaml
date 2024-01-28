@@ -18,3 +18,4 @@ jobs:
       - run: echo "minimum | ${{ env.manifest_compatibility_minimum }}"
       - run: echo "verified | ${{ env.manifest_compatibility_verified }}"
       - run: echo "maximum | ${{ env.manifest_compatibility_maximum }}"
+      - run: echo "secret ${{ secrets.FOUNDRYVTT_RELEASE_TOKEN }}"
