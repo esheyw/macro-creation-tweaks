@@ -1,0 +1,9 @@
+name: Test
+on:
+  gollum
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps: 
+      - run: echo "repo name: ${{ github.event.repository.name }}"
+      
