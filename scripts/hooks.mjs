@@ -27,7 +27,6 @@ export function updateHooks() {
   ]);
   for (const [settingName, data] of hooksMap) {
     const settingValue = setting(settingName);
-    console.warn(settingName, settingValue);
     if (settingValue) {
       hookIDs[settingName] = Hooks.on(data.hook, data.func);
     } else {

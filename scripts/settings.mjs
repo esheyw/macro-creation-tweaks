@@ -4,9 +4,6 @@ import { updateHooks } from "./hooks.mjs";
 export function setting(path) {
   return game.settings.get(MODULE, path);
 }
-function localize(str) {
-  return game.i18n.localize(str);
-}
 export function registerSettings() {
   game.settings.register(MODULE, "append-number", {
     config: true,
