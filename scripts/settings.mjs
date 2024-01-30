@@ -1,35 +1,30 @@
-import { MODULE } from "./constants.mjs";
-import { updateHooks } from "./hooks.mjs";
+import { MODULE_ID, SETTINGS } from "./constants.mjs";
+import { MODULE } from "./init.mjs";
 
-export function setting(path) {
-  return game.settings.get(MODULE, path);
-}
 export function registerSettings() {
-  game.settings.register(MODULE, "append-number", {
-    config: true,
-    default: true,
-    hint: "MacroCreationTweaks.Setting.AppendNumber.Hint",
-    name: "MacroCreationTweaks.Setting.AppendNumber.Name",
-    scope: "world",
-    type: Boolean,
-    onChange: updateHooks,
-  });
-  game.settings.register(MODULE, "delete-empty", {
-    config: true,
-    default: true,
-    hint: "MacroCreationTweaks.Setting.DeleteEmpty.Hint",
-    name: "MacroCreationTweaks.Setting.DeleteEmpty.Name",
-    scope: "world",
-    type: Boolean,
-    onChange: updateHooks,
-  });
-  game.settings.register(MODULE, "change-default-type", {
-    config: true,
-    default: true,
-    hint: "MacroCreationTweaks.Setting.ChangeDefaultType.Hint",
-    name: "MacroCreationTweaks.Setting.ChangeDefaultType.Name",
-    scope: "world",
-    type: Boolean,
-    onChange: updateHooks,
-  });
+  for (const [setting, data] of Object.entries(SETTINGS)) {
+    const settingPath = setting.replace("_", ".");
+    fu.setProperty(MODULE().settings, settingPath, data?.default ?? null);
+    const originalOnChange = data?.onChange ?? null;
+    data.onChange = (value) => {
+      fu.setProperty(MODULE().settings, settingPath, value);
+      if (originalOnChange) originalOnChange(value);
+    };
+    game.settings.register(MODULE_ID, setting, data);
+  }
+}
+
+export function updateSettingsCache() {
+  const modSettings = MODULE().settings;
+  for (const setting of Object.keys(SETTINGS)) {
+    const settingPath = setting.replace("_", ".");
+    const value = game.settings.get(MODULE_ID, setting);
+    fu.setProperty(modSettings, settingPath, value);
+  }
+}
+
+export function setting(key) {
+  const settingPath = key.replace("_", ".");
+  const cached = fu.getProperty(MODULE().settings, settingPath);
+  return cached !== undefined ? cached : game.settings.get(MODULE_ID, key);
 }

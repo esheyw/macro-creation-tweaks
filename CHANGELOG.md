@@ -6,3 +6,6 @@
 
 ## Version 1.0.2
 - Remove debug warnings
+
+## Version 1.0.3
+- Fix hook updater to not double hooks on setting change.
