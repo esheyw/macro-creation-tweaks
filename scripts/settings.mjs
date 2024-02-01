@@ -1,4 +1,4 @@
-import { MODULE_ID, SETTINGS } from "./constants.mjs";
+import { MODULE_ID, SETTINGS, fu } from "./constants.mjs";
 import { MODULE } from "./init.mjs";
 
 export function registerSettings() {

@@ -9,3 +9,11 @@
 
 ## Version 1.0.3
 - Fix hook updater to not double hooks on setting change.
+
+## Version 1.1
+- Add functionality to sort user-authored macros into folders (closes #1)
+  - Defaults to off
+  - With or without a root containing folder
+  - User folders will always be named their user's name, and coloured their user's colour, and will default to manual sorting but not overwrite if changed to alphabetical
+  - Root folder, if enabled, will use the name and colour in settings for creation, but won't overwrite any changes made after.
+- Add per-setting reset-to-default buttons

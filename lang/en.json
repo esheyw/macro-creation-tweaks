@@ -1,17 +1,45 @@
 {
   "MacroCreationTweaks": {
+    "ValidHexCode":"Must be a valid 6-character hex color code",
+    "Reset": {
+      "Title": "Reset to Default",
+      "Body": "Reset <strong>{setting}</strong> to default value ({value})?",
+      "Tooltip": "Reset this setting to its default value",
+      "IsDefault": "Setting is currently equal to its default value"
+    },
     "Setting": {
       "AppendNumber": {
         "Name": "Append Number",
         "Hint": "Fixes core bug where a number is not applied to the initial name of new macros created via clicking an empty hotbar slot"
       },
       "DeleteEmpty": {
-        "Name":"Delete Empty Macros",
-        "Hint":"If an edit macro window is closed with an empty command field, should the macro document be deleted"
+        "Name": "Delete Empty Macros",
+        "Hint": "If an edit macro window is closed with an empty command field, should the macro document be deleted"
       },
       "ChangeDefaultType": {
         "Name": "Change Default Macro Type",
         "Hint": "Change the default macro type from 'chat' to 'script'"
+      },
+      "PlayersFolders": {
+        "Name": "Sort Player-Created Macros to Folders",
+        "Hint": "Setting \"Root Folder\" will put the player folder beneath a configurable folder, \"Macro Directory\" will put the player folders at the top level of the macro directory, and \"No\" will disable the feature",
+        "Choices": {
+          "Root": "Root Folder",
+          "NoRoot": "Macro Directory"
+        }
+      },
+      "PlayersFolderRootName": {
+        "Name": "Initial Name of Root Macro Folder",
+        "Hint": ""
+      },
+      "PlayersFolderRootColor": {
+        "Name": "Initial Color of Root Macro Folder",
+        "Hint": ""
+      },
+      "SortExistingMacros": {
+        "Name": "Sort Existing Macros",
+        "Hint": "Move any existing macros authored by players to their corresponding folder",
+        "ButtonLabel": "Sort"
       }
     }
   }
