@@ -17,3 +17,6 @@
   - User folders will always be named their user's name, and coloured their user's colour, and will default to manual sorting but not overwrite if changed to alphabetical
   - Root folder, if enabled, will use the name and colour in settings for creation, but won't overwrite any changes made after.
 - Add per-setting reset-to-default buttons
+
+## Version 1.1.1
+- Mark root folder setting as requiresReload

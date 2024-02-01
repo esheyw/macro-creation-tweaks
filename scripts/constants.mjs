@@ -42,6 +42,7 @@ export const SETTINGS = {
       noroot: "MacroCreationTweaks.Setting.PlayersFolders.Choices.NoRoot",
       no: "No",
     },
+    requiresReload: true,
     onChange: updateConditionalHooks,
   },
   "players-folder-root-name": {
