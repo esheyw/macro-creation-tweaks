@@ -10,7 +10,7 @@
 ## Version 1.0.3
 - Fix hook updater to not double hooks on setting change.
 
-## Version 1.1
+## Version 1.1.0
 - Add functionality to sort user-authored macros into folders (closes #1)
   - Defaults to off
   - With or without a root containing folder
