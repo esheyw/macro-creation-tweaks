@@ -47,7 +47,7 @@ export async function sortUserMacrosIntoFolders() {
   const updates = nonGMs.reduce((acc, user) => {
     const userFolderID = user.getFlag(MODULE_ID, "macro-folder");
     //folder is a document reference if set
-    const authored = game.macros.filter((m) => m.author.id === user.id && m.folder?.id !== userFolderID);
+    const authored = game.macros.filter((m) => m.author?.id === user.id && m.folder?.id !== userFolderID);
     if (authored.length > 0) acc.push(...authored.map((m) => ({ _id: m._id, folder: userFolderID })));
     return acc;
   }, []);
@@ -55,7 +55,96 @@ export async function sortUserMacrosIntoFolders() {
     ui.notifications.info(`Sorting ${updates.length} macros into user folders.`);
     Macro.implementation.updateDocuments(updates);
   } else {
-    ui.notifications.info(`All player-authored macros are already sorted.`)
+    ui.notifications.info(`All player-authored macros are already sorted.`);
+  }
+  const unauthored = game.macros.filter((m) => !m.author);
+  if (unauthored.length) {
+    ui.notifications.error('Some macros were found that lack owners and were ignored, see console for list');
+    console.error(unauthored);
+  }
+}
+
+export async function newUserMacrosIntoFolders() {
+  if (!setting("players-folders").includes("root")) return;
+  const nonGMs = game.users.filter((user) => user.role !== CONST.USER_ROLES.GAMEMASTER);
+  const [unauthored, authored] = game.macros.contents.partition((m) => game.users.contents.includes(m.author));
+  if (unauthored.length) {
+    const [unowned, owned] = unauthored.partition((m) => {
+      const ownerIDs = Object.entries(m.ownership)
+        .filter(([_, level]) => level === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+        .map(([userID, _]) => userID);
+      const existingOwners = ownerIDs.map((id) => game.users.get(id)).filter((o) => o);
+      const nonGMOwners = existingOwners.filter((o) => o.role !== CONST.USER_ROLES.GAMEMASTER);
+      return !!nonGMOwners.length;
+    });
+    const templateData = {
+      unowned: unowned.map((m) => ({
+        name: m.name,
+      })),
+      owned: owned.map((m) => ({
+        name: m.name,
+        owners: Object.entries(m.ownership)
+          .filter(
+            ([userID, level]) =>
+              level === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER &&
+              game.users.get(userID)?.role !== CONST.USER_ROLES.GAMEMASTER
+          )
+          .map(([userID, _]) => game.users.get(userID)?.name ?? null)
+          .filter((name) => name)
+          .join(", "),
+      })),
+    };
+    const template = `
+    <style>
+    .mct-unauthored-macros .macro-group {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 2px;
+    }
+    .mct-unauthored-macros span {
+      border: 1px solid green;
+    }
+    .mct-unauthored-macros h3 {
+      width: 100%;
+      clear:both;
+    }
+    .mct-unauthored-macros {
+      
+    }
+    </style>
+    <div class="mct-unauthored-macros">
+    <h1>Unsortable Macros</h1>    
+    One or more macros were found to have no valid <code>author</code> field
+    {{#if unowned.length}}
+    <h3>Not owned by any existing user in this world:</h3>
+    <div class="macro-group">
+      {{#each unowned}}<span>{{name}}</span>{{/each}}    
+    </div>
+    {{/if}}
+    {{#if owned.length}}
+    <h3>Owned by one or more existing world users:</h3>
+    <div class="macro-group">
+      {{#each owned}}<span>{{name}} (owners: {{owners}})</span>{{/each}}     
+    </div>
+    {{/if}}
+    </div>
+    `;
+    const content = Handlebars.compile(template)(templateData);
+    const r = await Dialog.wait({
+      title: "Broken Macros",
+      content,
+      buttons: {
+        del: {
+          label: "Delete",
+          icon: `<i class="fa-solid fa-trash"></i>`,
+        },
+        ignore: {
+          label: "Ignore",
+          icon: '<i class="fa-solid fa-forward"></i>',
+        },
+      },
+    });
+    console.warn(r);
   }
 }
 Hooks.once("setup", () => {
