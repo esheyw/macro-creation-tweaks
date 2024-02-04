@@ -20,3 +20,6 @@
 
 ## Version 1.1.1
 - Mark root folder setting as requiresReload
+
+## Version 1.1.2
+- Add minimal error handling and reporting for authorless macros when attempting to sort existing macros

@@ -44,13 +44,13 @@ async function updateUserFolders() {
 export async function sortUserMacrosIntoFolders() {
   if (!setting("players-folders").includes("root")) return;
   const nonGMs = game.users.filter((user) => user.role !== CONST.USER_ROLES.GAMEMASTER);
-  const updates = nonGMs.reduce((acc, user) => {
+  const updates = [];
+  for (const user of nonGMs) {
     const userFolderID = user.getFlag(MODULE_ID, "macro-folder");
-    //folder is a document reference if set
+    if (!game.folders.get(userFolderID)) return ui.notifications.warn(`Please do not attempt to sort until after reloading once player folders are enabled.`);
     const authored = game.macros.filter((m) => m.author?.id === user.id && m.folder?.id !== userFolderID);
-    if (authored.length > 0) acc.push(...authored.map((m) => ({ _id: m._id, folder: userFolderID })));
-    return acc;
-  }, []);
+    if (authored.length > 0) updates.push(...authored.map((m) => ({ _id: m._id, folder: userFolderID })));
+  } 
   if (updates.length) {
     ui.notifications.info(`Sorting ${updates.length} macros into user folders.`);
     Macro.implementation.updateDocuments(updates);
