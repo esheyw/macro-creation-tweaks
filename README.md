@@ -12,7 +12,8 @@ I accidentally click empty hotbar slots all the time, creating useless, empty ma
 Personally I make script macros *far* more often than chat macros, so this is the obvious choice, but if you'd like the other parts of this module without this change, it is configurable.
 
 ## Sort macros into per-User folders
-*Defaults Off* | *Requires Reload*
+*Defaults Off* | *Requires Reload* 
+
 On creation, sorts macros made by non-GM users into a folder. User folders can be inside a containing root folder or at the top level of the macro directory.
 User folders will always be named their user's name, and coloured their user's colour, and will default to manual sorting but not overwrite if changed to alphabetical.
 The root folder, if enabled, will use the name and colour in settings for creation, but won't overwrite any changes made after.
