@@ -7,6 +7,16 @@
       "Tooltip": "Reset this setting to its default value",
       "IsDefault": "Setting is currently equal to its default value"
     },
+    "Error":{
+      "UnauthoredFound":"Some macros were found that lack owners and were ignored, see console for list."
+    },
+    "Warning":{
+      "PrematureSortAttempt":"Settings currently do not allow sorting, please save settings and try again"
+    },
+    "Info":{
+      "SortingMacros":"Sorting {count} macros into user folders.",
+      "AllSorted":"All macros authored by a non-GM player are already sorted."
+    },
     "Setting": {
       "AppendNumber": {
         "Name": "Append Number",
@@ -41,6 +51,9 @@
         "Hint": "Move any existing macros authored by players to their corresponding folder",
         "ButtonLabel": "Sort"
       }
+    },
+    "SettingGroup":{
+      "Sorting": "Macro Sorting"
     }
   }
 }

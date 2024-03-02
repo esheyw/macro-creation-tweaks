@@ -1,30 +1,137 @@
-import { MODULE_ID, SETTINGS, fu } from "./constants.mjs";
+import {
+  appendNumber,
+  deleteEmpty,
+  changeDefaultType,
+  preSortMacro,
+  sortMacro,
+  deleteFolderIfEmpty,
+} from "./hooks.mjs";
+import { mctlog, sortUserMacrosIntoFolders, updateRootFolder } from "./functions.mjs";
 import { MODULE } from "./init.mjs";
-
-export function registerSettings() {
-  for (const [setting, data] of Object.entries(SETTINGS)) {
-    const settingPath = setting.replace("_", ".");
-    fu.setProperty(MODULE().settings, settingPath, data?.default ?? null);
-    const originalOnChange = data?.onChange ?? null;
-    data.onChange = (value) => {
-      fu.setProperty(MODULE().settings, settingPath, value);
-      if (originalOnChange) originalOnChange(value);
-    };
-    game.settings.register(MODULE_ID, setting, data);
-  }
-}
-
-export function updateSettingsCache() {
-  const modSettings = MODULE().settings;
-  for (const setting of Object.keys(SETTINGS)) {
-    const settingPath = setting.replace("_", ".");
-    const value = game.settings.get(MODULE_ID, setting);
-    fu.setProperty(modSettings, settingPath, value);
-  }
-}
+export const SETTINGS = {
+  "append-number": {
+    config: true,
+    default: true,
+    hint: "MacroCreationTweaks.Setting.AppendNumber.Hint",
+    name: "MacroCreationTweaks.Setting.AppendNumber.Name",
+    scope: "world",
+    type: Boolean,
+    hooks: {
+      action: appendNumber,
+      hook: "preCreateMacro",
+    },
+  },
+  "delete-empty": {
+    config: true,
+    default: true,
+    hint: "MacroCreationTweaks.Setting.DeleteEmpty.Hint",
+    name: "MacroCreationTweaks.Setting.DeleteEmpty.Name",
+    scope: "world",
+    type: Boolean,
+    hooks: { action: deleteEmpty, hook: "closeMacroConfig" },
+  },
+  "change-default-type": {
+    config: true,
+    default: true,
+    hint: "MacroCreationTweaks.Setting.ChangeDefaultType.Hint",
+    name: "MacroCreationTweaks.Setting.ChangeDefaultType.Name",
+    scope: "world",
+    type: Boolean,
+    hooks: {
+      action: changeDefaultType,
+      hook: "preCreateMacro",
+    },
+  },
+  "players-folders": {
+    config: true,
+    default: "no",
+    scope: "world",
+    type: String,
+    hint: "MacroCreationTweaks.Setting.PlayersFolders.Hint",
+    name: "MacroCreationTweaks.Setting.PlayersFolders.Name",
+    choices: {
+      root: "MacroCreationTweaks.Setting.PlayersFolders.Choices.Root",
+      noroot: "MacroCreationTweaks.Setting.PlayersFolders.Choices.NoRoot",
+      no: "No",
+    },
+    hooks: [
+      {
+        action: preSortMacro,
+        hook: "preCreateMacro",
+        test: (value) => value.includes("root"),
+      },
+      {
+        action: sortMacro,
+        hook: "createMacro",
+        test: (value) => value.includes("root"),
+      },
+      {
+        action: deleteFolderIfEmpty,
+        hook: "deleteMacro",
+        test: (value) => value.includes("root"),
+      },
+    ],
+    onChange: () => updateRootFolder(),
+    group: "MacroCreationTweaks.SettingGroup.Sorting",
+  },
+  "players-folder-root-name": {
+    config: true,
+    default: "Player Macros",
+    scope: "world",
+    type: String,
+    // hint: "MacroCreationTweaks.Setting.PlayersFolderRootName.Hint",
+    name: "MacroCreationTweaks.Setting.PlayersFolderRootName.Name",
+    visibility: {
+      dependsOn: "players-folders",
+      test: (value) => value === "root",
+    },
+    group: "MacroCreationTweaks.SettingGroup.Sorting",
+  },
+  "players-folder-root-color": {
+    config: true,
+    default: "#18591F",
+    scope: "world",
+    type: String,
+    // hint: "MacroCreationTweaks.Setting.PlayersFolderRootColor.Hint",
+    name: "MacroCreationTweaks.Setting.PlayersFolderRootColor.Name",
+    visibility: {
+      dependsOn: "players-folders",
+      test: (value) => value === "root",
+    },
+    group: "MacroCreationTweaks.SettingGroup.Sorting",
+  },
+  "sort-existing-macros": {
+    config: true,
+    default: "replaceme",
+    type: String,
+    scope: "world",
+    hint: "MacroCreationTweaks.Setting.SortExistingMacros.Hint",
+    name: "MacroCreationTweaks.Setting.SortExistingMacros.Name",
+    button: {
+      label: "MacroCreationTweaks.Setting.SortExistingMacros.ButtonLabel",
+      action: sortUserMacrosIntoFolders,
+      icon: "fa-solid fa-arrow-down-z-a",
+    },
+    visibility: {
+      dependsOn: "players-folders",
+      test: (formValue, savedValue, visible) => {
+        if (visible && !formValue.includes("root")) return false;
+        return savedValue.includes("root");
+      },
+    },
+    group: "MacroCreationTweaks.SettingGroup.Sorting",
+  },
+  "players-folder-root-id": {
+    config: false,
+    type: String,
+    scope: "world",
+  },
+};
 
 export function setting(key) {
-  const settingPath = key.replace("_", ".");
-  const cached = fu.getProperty(MODULE().settings, settingPath);
-  return cached !== undefined ? cached : game.settings.get(MODULE_ID, key);
+  const SM = MODULE()?.settingsManager;
+  if (SM?.initialized && game?.user) {
+    return SM.get(key);
+  }
+  return undefined;
 }

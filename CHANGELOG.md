@@ -23,3 +23,12 @@
 
 ## Version 1.1.2
 - Add minimal error handling and reporting for authorless macros when attempting to sort existing macros
+
+## Version 1.2
+- Requires Macro & Helper Library as a dependency, as I moved all the settings management code to a new class there
+- Finish localizing all UI strings
+- Module will now clean up after itself; if you set Macro Sorting to 'No', it will clean up all existing folders.
+- Folders will only be created for non-GM users (assistants *do* get folders).
+- Folders will be created if a user authors a macro when they previously had none.
+- Folders will be deleted if a user's last macro is deleted.
+- Authorless macros will continue to be simply unhandled; If you find yourself in a world that has macros without a valid author, please let me know, but I think it's rare enough that more work here would be ill-spent.
