@@ -7,7 +7,9 @@ import {
   deleteFolderIfEmpty,
 } from "./hooks.mjs";
 import { mctlog, sortUserMacrosIntoFolders, updateRootFolder } from "./functions.mjs";
-import { MODULE } from "./init.mjs";
+import { MODULE, MHL } from "./init.mjs";
+import { fu } from "./constants.mjs";
+const debouncedRootFolder = fu.debounce(updateRootFolder, 350)
 export const SETTINGS = {
   "append-number": {
     config: true,
@@ -71,7 +73,7 @@ export const SETTINGS = {
         test: (value) => value.includes("root"),
       },
     ],
-    onChange: () => updateRootFolder(),
+    onChange: debouncedRootFolder,
     group: "MacroCreationTweaks.SettingGroup.Sorting",
   },
   "players-folder-root-name": {
@@ -85,6 +87,7 @@ export const SETTINGS = {
       dependsOn: "players-folders",
       test: (value) => value === "root",
     },
+    onChange: debouncedRootFolder, 
     group: "MacroCreationTweaks.SettingGroup.Sorting",
   },
   "players-folder-root-color": {
@@ -98,6 +101,8 @@ export const SETTINGS = {
       dependsOn: "players-folders",
       test: (value) => value === "root",
     },
+    colorPicker: true,
+    onChange: debouncedRootFolder,
     group: "MacroCreationTweaks.SettingGroup.Sorting",
   },
   "sort-existing-macros": {

@@ -3,7 +3,7 @@ import { updateRootFolder } from "./functions.mjs";
 import { SETTINGS} from "./settings.mjs";
 export const MODULE = () => game.modules.get(MODULE_ID);
 export const SM = () => MODULE().settingsManager;
-export const MHL = () => game.modules.get("pf2e-macro-helper-library").api;
+export const MHL = () => game.modules.get("macro-helper-library").api;
 
 Hooks.once("init", async () => {
   const mod = MODULE();

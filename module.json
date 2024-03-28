@@ -24,16 +24,15 @@
   ],
   "flags": {
     "hotReload": {
-      "extensions": ["css", "hbs", "json"],
-      "paths": ["lang", "styles", "templates"]
+      "extensions": ["css", "hbs", "json"]
     }
   },
   "relationships": {
     "requires": [
       {
-        "id": "pf2e-macro-helper-library",
+        "id": "macro-helper-library",
         "type": "module",
-        "manifest": "https://github.com/esheyw/pf2e-macro-helper-library/releases/latest/download/module.json",
+        "manifest": "https://github.com/esheyw/macro-helper-library/releases/latest/download/module.json",
         "compatibility": {
           "minimum": "0.2.8"
         }
