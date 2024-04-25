@@ -1,2 +1,11 @@
-/commons.js
-/foundry.js
+pf2e-macro-helper-library.lock
+jsconfig.json
+styles/*.css
+styles/*.map
+.vscode/
+foundry.js
+commons.js
+packs/**
+node_modules
+app
+client.mjs

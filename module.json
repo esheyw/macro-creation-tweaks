@@ -44,7 +44,7 @@
   "manifest": "updatedByRelease",
   "url": "updatedByRelease",
   "download": "updatedByRelease",
-  "readme":"https://github.com/esheyw/macro-creation-tweaks/blob/main/README.md",
-  "bugs":"https://github.com/esheyw/macro-creation-tweaks/issues",
+  "readme": "https://github.com/esheyw/macro-creation-tweaks/blob/main/README.md",
+  "bugs": "https://github.com/esheyw/macro-creation-tweaks/issues",
   "changelog": "https://github.com/esheyw/macro-creation-tweaks/blob/main/CHANGELOG.md"
 }
