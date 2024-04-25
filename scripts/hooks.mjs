@@ -21,9 +21,7 @@ export async function sortMacro(document, options, userID) {
   }
 }
 export async function deleteFolderIfEmpty(document, data, userID) {
-  const func = `deleteFolderIfEmpty`;
-  const { mhlog, doc, isRealGM } = MHL();
-  // mhlog({ document, data, userID }, { func });
+  const { doc, isRealGM } = MHL();
   if (game.user !== game.users.activeGM || document.pack) return;
   const user = doc(document.author, 'User');
   if (isRealGM(user)) return;
