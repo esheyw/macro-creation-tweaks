@@ -7,7 +7,7 @@ export const MHL = () => game.modules.get('macro-helper-library').api;
 
 Hooks.once('init', async () => {
   const mod = MODULE();
-  const MHLSettingsManager = MHL().classes.MHLSettingsManager;
+  const MHLSettingsManager = MHL().util.MHLSettingsManager;
   mod.settingsManager = new MHLSettingsManager(MODULE_ID);
 });
 Hooks.once('i18nInit', () => {
